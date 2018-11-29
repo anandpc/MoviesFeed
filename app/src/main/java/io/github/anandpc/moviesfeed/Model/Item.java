@@ -1,37 +1,29 @@
 package io.github.anandpc.moviesfeed.Model;
 
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementArray;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Text;
 
-@Root(name = "Item")
+@Root(name = "item",strict = false
+)
 public class Item
 {
-    @Element(name = "pubDate")
-    private String pubDate;
-
-    @Element(name = "title")
+    @Element(name = "title",required = false)
     private String title;
 
-    @Element(name = "enclosure")
-    private Enclosure enclosure;
-
-    @Element(name = "description")
+    @Element(name = "description",required = false)
     private String description;
 
-    @Element(name = "link")
-    private String link;
+   /* @Attribute(name = "url",required = false)
+    private String url;
 
-
-    public String getPubDate ()
+    public String getUrl ()
     {
-        return pubDate;
-    }
-
-    public void setPubDate (String pubDate)
-    {
-        this.pubDate = pubDate;
-    }
+        return url;
+    }*/
 
     public String getTitle ()
     {
@@ -43,16 +35,6 @@ public class Item
         this.title = title;
     }
 
-    public Enclosure getEnclosure ()
-    {
-        return enclosure;
-    }
-
-    public void setEnclosure (Enclosure enclosure)
-    {
-        this.enclosure = enclosure;
-    }
-
     public String getDescription ()
     {
         return description;
@@ -61,16 +43,6 @@ public class Item
     public void setDescription (String description)
     {
         this.description = description;
-    }
-
-    public String getLink ()
-    {
-        return link;
-    }
-
-    public void setLink (String link)
-    {
-        this.link = link;
     }
 
 }

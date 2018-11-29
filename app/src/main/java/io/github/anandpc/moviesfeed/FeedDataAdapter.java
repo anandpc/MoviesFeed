@@ -9,24 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import io.github.anandpc.moviesfeed.Model.CinemaBlendClass;
-import io.github.anandpc.moviesfeed.Model.Item;
-import io.github.anandpc.moviesfeed.Model.Rss;
-
 
 public class FeedDataAdapter extends RecyclerView.Adapter<FeedDataAdapter.ViewHolder>{
 
     private Context context;
-    private Rss rss;
-    private CinemaBlendClass data;
-    private ArrayList<Item> lists;
 
     public FeedDataAdapter(Context context) {
         this.context = context;
-//        this.data = data;
-//        rss = data.getRss();
     }
 
     @NonNull

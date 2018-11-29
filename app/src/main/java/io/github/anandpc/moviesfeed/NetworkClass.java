@@ -1,58 +1,139 @@
 package io.github.anandpc.moviesfeed;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import io.github.anandpc.moviesfeed.Model.CinemaBlendClass;
-import io.github.anandpc.moviesfeed.Model.Rss;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.StringReader;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class NetworkClass {
-    CinemaBlendClass cinemaBlendClass;
-    RecyclerView recyclerView;
 
-    public NetworkClass(RecyclerView recyclerView) {
-        this.recyclerView = recyclerView;
-    }
+    static final String KEY_TITLE = "title";
+    static final String KEY_URL = "url";
+    static final String KEY_DESC = "description";
 
-    void getData(){
+    void getDataFeed() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.cinemablend.com/")
-                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
                 .build();
 
         ApiCall apiCall = retrofit.create(ApiCall.class);
 
-        Call<CinemaBlendClass> data = apiCall.getData();
+        //  Response of Responsebody type
+        Call<ResponseBody> responseBody = apiCall.getResponseBody();
 
-        data.enqueue(new Callback<CinemaBlendClass>() {
+        responseBody.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<CinemaBlendClass> call, Response<CinemaBlendClass> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                if (response.isSuccessful())
-                {
-                    CinemaBlendClass data = response.body();
+                if (response.isSuccessful()) {
+                    try {
+                        String dataStr = response.body().string();
+                        Log.i("data", dataStr);
+                       Document doc =  getDomElement(dataStr);
 
-                }
-                else
-                {
-                    Log.i("Error", "error in resp");
+                        NodeList nl = doc.getElementsByTagName(KEY_TITLE);
+
+
+
+                        for (int i = 0; i < nl.getLength(); i++) {
+                            String title = getValue(e, KEY_TITLE); // name child value
+                            String url = getValue(e, KEY_URL); // cost child value
+                            String description = getValue(e, KEY_DESC); // description child value
+                        }
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.i("Fail", "In response but failed.");
                 }
             }
 
             @Override
-            public void onFailure(Call<CinemaBlendClass> call, Throwable t) {
-                Log.i("failed","Failure");
-
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i("onFailure", "In onFailure");
             }
-
         });
 
+        /*
+
+        //  Response for Item type
+        Call<Item> feed = apiCall.getData();
+        feed.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                Item data = response.body();
+                Log.i("success", "Succcess");
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                Log.i("failed", "Failure");
+            }
+        });
+*/
     }
 
+    public Document getDomElement(String xml){
+        Document doc = null;
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        try {
+
+            DocumentBuilder db = dbf.newDocumentBuilder();
+
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(xml));
+            doc = db.parse(is);
+
+        } catch (ParserConfigurationException e) {
+            Log.e("Error: ", e.getMessage());
+            return null;
+        } catch (SAXException e) {
+            Log.e("Error: ", e.getMessage());
+            return null;
+        } catch (IOException e) {
+            Log.e("Error: ", e.getMessage());
+            return null;
+        }
+        // return DOM
+        return doc;
+    }
+
+    public String getValue(Element item, String str) {
+        NodeList n = item.getElementsByTagName(str);
+        return this.getElementValue(n.item(0));
+    }
+
+    public final String getElementValue( Node elem ) {
+        Node child;
+        if( elem != null){
+            if (elem.hasChildNodes()){
+                for( child = elem.getFirstChild(); child != null; child = child.getNextSibling() ){
+                    if( child.getNodeType() == Node.TEXT_NODE  ){
+                        return child.getNodeValue();
+                    }
+                }
+            }
+        }
+        return "";
+    }
 }

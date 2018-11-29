@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(manager);
 
-        NetworkClass networkClass = new NetworkClass(recyclerView);
-        networkClass.getData();
+        NetworkClass networkClass = new NetworkClass();
+        networkClass.getDataFeed();
 
     }
 }
