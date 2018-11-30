@@ -1,70 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
-    android:elevation="10dp"
-    android:layout_margin="4dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:elevation="10dp">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <ImageView
             android:id="@+id/imageMovie"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
             android:padding="4dp"
             android:scaleType="fitXY"
-            android:src="@drawable/demo_img"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/demo_img" />
 
-        <TextView
-            android:id="@+id/textTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="28dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="A Private War Review"
-            android:textColor="#000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageMovie"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:weightSum="2">
 
-        <TextView
-            android:id="@+id/textDesc"
-            android:layout_width="183dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="A Private War tells Marie Colvin's story, which is just as vital as any conflict that she'd covered, and it does so with respect for its subject and the audience. It should not be missed."
-            android:textColor="#000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageMovie"
-            app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+            <TextView
+                android:id="@+id/textTitle"
+                style="@style/Base.TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="4dp"
+                android:text="@string/demo_text"
+                android:textSize="15sp"/>
 
+            <TextView
+                android:id="@+id/textDesc"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="4dp"
+                android:textSize="12sp"
+                android:text="@string/demo_desc" />
 
-    </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

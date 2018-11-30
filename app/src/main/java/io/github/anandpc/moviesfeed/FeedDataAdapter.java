@@ -9,24 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
-import io.github.anandpc.moviesfeed.Model.CinemaBlendClass;
-import io.github.anandpc.moviesfeed.Model.Item;
-import io.github.anandpc.moviesfeed.Model.Rss;
-
+import io.github.anandpc.moviesfeed.Model.Article;
 
 public class FeedDataAdapter extends RecyclerView.Adapter<FeedDataAdapter.ViewHolder>{
 
     private Context context;
-    private Rss rss;
-    private CinemaBlendClass data;
-    private ArrayList<Item> lists;
+    ArrayList<Article> articles;
 
-    public FeedDataAdapter(Context context) {
+    public FeedDataAdapter(Context context, ArrayList<Article> articles) {
         this.context = context;
-//        this.data = data;
-//        rss = data.getRss();
+        this.articles = articles;
     }
 
     @NonNull
@@ -39,15 +35,17 @@ public class FeedDataAdapter extends RecyclerView.Adapter<FeedDataAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.imageMovie.setImageResource(R.drawable.demo_img);
-        holder.textTitle.setText("3 Idiots");
-        holder.textDesc.setText("A Private War&lt;/em&gt; tells Marie Colvin's story, which is just as vital as any conflict that she'd covered, and it does so with respect for its subject and the audience. It should not be missed.&lt;/p&gt;");
+        Article article = articles.get(position);
+
+        Picasso.with(context).load(article.getUrlToImage()).placeholder(R.drawable.no_image).into(holder.imageMovie);
+        holder.textTitle.setText(article.getTitle());
+        holder.textDesc.setText(article.getDescription());
 
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return articles.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
